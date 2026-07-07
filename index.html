@@ -64,12 +64,12 @@
     }
 
     .polaroid:hover {
-      transform: translateY(-8px) scale(1.03);
+      transform: translateY(-8px) scale(1.03) !important;
     }
 
     .polaroid.selected {
       z-index: 20;
-      transform: scale(1.12) translateY(-10px);
+      transform: scale(1.12) translateY(-10px) !important;
     }
 
     .polaroid-inner {
@@ -150,6 +150,14 @@
       margin: 0;
     }
 
+    .empty-message {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #8a5a64;
+      font-size: 1rem;
+      padding: 40px 10px;
+    }
+
     .floating-heart {
       position: fixed;
       bottom: -30px;
@@ -164,9 +172,11 @@
         transform: translateY(0) rotate(0deg);
         opacity: 0;
       }
+
       15% {
         opacity: 0.8;
       }
+
       100% {
         transform: translateY(-110vh) rotate(240deg);
         opacity: 0;
@@ -206,51 +216,78 @@
   <script>
     const memories = [
       {
-        image: "photos/first_days.jpg",
+        image: "./photos/first_days.jpg",
         caption: "Tough First Days",
         text: "First days can be tough, but they're also the beginning of something beautiful."
       },
       {
-        image: "photos/fun_fool.jpg",
+        image: "./photos/fun_fool.jpg",
         caption: "A fool for you",
         text: "Remember, it's fun to be a fool, even better to be a fool for you."
       },
       {
-        image: "photos/mama_shivi.jpg",
-        caption: "Mama & Shivi loves you",
+        image: "./photos/mama_shivi.jpg",
+        caption: "Mama & Shivi love you",
         text: "Mama and Shivi love you more than words can express. You are our sunshine."
       }
     ];
 
     const board = document.getElementById("board");
+    const rotations = [-5, 4, -3, 6, -6, 3];
 
-    memories.forEach((memory, index) => {
-      const card = document.createElement("div");
-      card.className = "polaroid";
-      card.style.transform = `rotate(${[-5, 4, -3, 6, -6, 3][index % 6]}deg)`;
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
 
-      card.innerHTML = `
-        <div class="polaroid-inner">
-          <div class="front">
-            <img src="${memory.image}" alt="${memory.caption}">
-            <div class="caption">${memory.caption}</div>
+    function renderMemories() {
+      board.innerHTML = "";
+
+      if (!memories.length) {
+        board.innerHTML = `
+          <div class="empty-message">
+            No memories added yet.
           </div>
-          <div class="back">
-            <p>${memory.text}</p>
-          </div>
-        </div>
-      `;
+        `;
+        return;
+      }
 
-      card.addEventListener("click", () => {
-        document.querySelectorAll(".polaroid").forEach(item => {
-          if (item !== card) item.classList.remove("selected");
+      memories.forEach((memory, index) => {
+        const card = document.createElement("div");
+        card.className = "polaroid";
+        card.style.transform = `rotate(${rotations[index % rotations.length]}deg)`;
+
+        card.innerHTML = `
+          <div class="polaroid-inner">
+            <div class="front">
+              <img 
+                src="${escapeHtml(memory.image)}" 
+                alt="${escapeHtml(memory.caption)}"
+                loading="lazy"
+              >
+              <div class="caption">${escapeHtml(memory.caption)}</div>
+            </div>
+            <div class="back">
+              <p>${escapeHtml(memory.text)}</p>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener("click", () => {
+          document.querySelectorAll(".polaroid").forEach(item => {
+            if (item !== card) item.classList.remove("selected");
+          });
+
+          card.classList.toggle("selected");
         });
 
-        card.classList.toggle("selected");
+        board.appendChild(card);
       });
-
-      board.appendChild(card);
-    });
+    }
 
     function createHeart() {
       const heart = document.createElement("div");
@@ -263,6 +300,7 @@
       setTimeout(() => heart.remove(), 9000);
     }
 
+    renderMemories();
     setInterval(createHeart, 900);
   </script>
 </body>
