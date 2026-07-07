@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>For My Sunshine</title>
 
   <style>
@@ -22,14 +23,77 @@
       color: #6b3e4a;
     }
 
+    #lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background:
+        radial-gradient(circle at top left, #fff1f5, transparent 35%),
+        radial-gradient(circle at bottom right, #ffe9c9, transparent 35%),
+        linear-gradient(135deg, #fff7e6, #ffe6ef);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lock-card {
+      width: min(390px, 92vw);
+      padding: 32px 24px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 20px 50px rgba(217, 95, 141, 0.25);
+      text-align: center;
+    }
+
+    .lock-card h1 {
+      margin: 0 0 10px;
+      color: #d95f8d;
+      font-size: 2rem;
+    }
+
+    .lock-card p {
+      color: #8a5a64;
+    }
+
+    .lock-card input {
+      width: 100%;
+      margin: 16px 0 12px;
+      padding: 13px 15px;
+      border-radius: 999px;
+      border: 2px solid #f3a6bd;
+      outline: none;
+      font: inherit;
+      text-align: center;
+      color: #6b3e4a;
+    }
+
+    .lock-card button {
+      width: 100%;
+      padding: 13px 15px;
+      border: 0;
+      border-radius: 999px;
+      background: #d95f8d;
+      color: white;
+      font: inherit;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(217, 95, 141, 0.25);
+    }
+
+    #error-message {
+      min-height: 22px;
+      color: #b8325f;
+      font-size: 0.92rem;
+    }
+
     header {
       text-align: center;
-      padding: 34px 18px 14px;
+      padding: 36px 18px 10px;
     }
 
     header h1 {
       margin: 0;
-      font-size: clamp(2rem, 7vw, 4rem);
+      font-size: clamp(2.1rem, 8vw, 4.4rem);
       color: #d95f8d;
       text-shadow: 2px 2px 0 #fff;
     }
@@ -40,126 +104,26 @@
       color: #8a5a64;
     }
 
-    .admin-panel {
-      width: min(850px, 94vw);
-      margin: 18px auto;
-      padding: 20px;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.65);
-      box-shadow: 0 12px 30px rgba(217, 95, 141, 0.16);
-      backdrop-filter: blur(8px);
-    }
-
-    .admin-panel h2 {
-      margin-top: 0;
-      color: #d95f8d;
-      text-align: center;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .form-group.full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-size: 0.92rem;
-      color: #7b4a54;
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      border: 2px solid #f3a6bd;
-      border-radius: 16px;
-      padding: 12px 14px;
-      font: inherit;
-      outline: none;
-      background: rgba(255, 255, 255, 0.85);
-      color: #6b3e4a;
-    }
-
-    textarea {
-      min-height: 88px;
-      resize: vertical;
-    }
-
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-      justify-content: center;
-    }
-
-    button {
-      border: 0;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font: inherit;
-      cursor: pointer;
-      background: #d95f8d;
-      color: white;
-      box-shadow: 0 8px 18px rgba(217, 95, 141, 0.25);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(217, 95, 141, 0.3);
-    }
-
-    button.secondary {
-      background: #f3a6bd;
-    }
-
-    button.danger {
-      background: #b8325f;
-    }
-
-    .hint {
-      margin: 12px 0 0;
-      font-size: 0.88rem;
-      text-align: center;
-      color: #8a5a64;
-    }
-
-    .board {
-      width: min(1100px, 94vw);
+    .board-wrapper {
+      width: min(1120px, 94vw);
       margin: 24px auto 70px;
-      padding: 28px;
-      min-height: 55vh;
-      border-radius: 32px;
+      padding: 30px;
+      border-radius: 34px;
       background: rgba(255, 255, 255, 0.45);
       box-shadow: 0 20px 50px rgba(217, 95, 141, 0.2);
       backdrop-filter: blur(8px);
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 28px;
-      position: relative;
     }
 
-    .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      color: #8a5a64;
-      padding: 40px 10px;
-      font-size: 1.05rem;
+    .board {
+      min-height: 60vh;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 30px;
     }
 
     .polaroid {
       position: relative;
-      height: 245px;
+      height: 255px;
       perspective: 1000px;
       cursor: pointer;
       transition: transform 0.35s ease, z-index 0.2s ease;
@@ -171,7 +135,7 @@
 
     .polaroid.selected {
       z-index: 20;
-      transform: scale(1.12) translateY(-10px) rotate(0deg);
+      transform: scale(1.14) translateY(-12px) rotate(0deg);
     }
 
     .polaroid-inner {
@@ -179,7 +143,7 @@
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(.2,.8,.2,1);
+      transition: transform 0.85s cubic-bezier(.2,.8,.2,1);
     }
 
     .polaroid.selected .polaroid-inner {
@@ -191,10 +155,13 @@
       position: absolute;
       inset: 0;
       backface-visibility: hidden;
-      border-radius: 8px;
+      border-radius: 9px;
       background: #fffdf8;
       box-shadow: 0 12px 24px rgba(104, 62, 74, 0.18);
-      padding: 12px 12px 46px;
+    }
+
+    .front {
+      padding: 12px 12px 48px;
     }
 
     .front::before {
@@ -216,9 +183,9 @@
 
     .front img {
       width: 100%;
-      height: 155px;
+      height: 165px;
       object-fit: cover;
-      border-radius: 4px;
+      border-radius: 5px;
       display: block;
       filter: saturate(1.08) contrast(1.02);
     }
@@ -227,7 +194,7 @@
       position: absolute;
       left: 12px;
       right: 12px;
-      bottom: 12px;
+      bottom: 13px;
       text-align: center;
       font-size: 0.95rem;
       color: #7b4a54;
@@ -241,73 +208,17 @@
       text-align: center;
       padding: 24px;
       background:
-        linear-gradient(135deg, rgba(255, 235, 242, 0.95), rgba(255, 250, 229, 0.95)),
+        linear-gradient(135deg, rgba(255, 235, 242, 0.96), rgba(255, 250, 229, 0.96)),
         #fff;
       border: 2px dashed #f3a6bd;
     }
 
     .back p {
-      font-size: 1.08rem;
-      line-height: 1.45;
       margin: 0;
-      white-space: pre-wrap;
-    }
-
-    .delete-card {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      z-index: 30;
-      width: 30px;
-      height: 30px;
-      padding: 0;
-      border-radius: 50%;
-      background: #b8325f;
-      color: white;
-      font-size: 16px;
-      display: grid;
-      place-items: center;
-    }
-
-    #lock-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background:
-        radial-gradient(circle at top left, #fff1f5, transparent 35%),
-        radial-gradient(circle at bottom right, #ffe9c9, transparent 35%),
-        linear-gradient(135deg, #fff7e6, #ffe6ef);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .lock-card {
-      width: min(390px, 92vw);
-      padding: 32px 24px;
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.76);
-      box-shadow: 0 20px 50px rgba(217, 95, 141, 0.25);
-      text-align: center;
+      font-size: 1.05rem;
+      line-height: 1.45;
       color: #6b3e4a;
-    }
-
-    .lock-card h1 {
-      margin-top: 0;
-      color: #d95f8d;
-    }
-
-    .lock-card input {
-      margin: 16px 0 12px;
-      text-align: center;
-      border-radius: 999px;
-    }
-
-    #error-message {
-      min-height: 22px;
-      color: #b8325f;
-      font-size: 0.92rem;
+      white-space: pre-wrap;
     }
 
     .floating-heart {
@@ -324,40 +235,54 @@
         transform: translateY(0) rotate(0deg);
         opacity: 0;
       }
+
       15% {
         opacity: 0.8;
       }
+
       100% {
         transform: translateY(-110vh) rotate(240deg);
         opacity: 0;
       }
     }
 
-    @media (max-width: 650px) {
-      .form-grid {
-        grid-template-columns: 1fr;
+    @media (max-width: 560px) {
+      header {
+        padding-top: 28px;
+      }
+
+      .board-wrapper {
+        padding: 18px;
+        border-radius: 26px;
       }
 
       .board {
         grid-template-columns: repeat(2, minmax(130px, 1fr));
         gap: 20px;
-        padding: 18px;
       }
 
       .polaroid {
-        height: 220px;
+        height: 225px;
+      }
+
+      .front {
+        padding: 10px 10px 44px;
       }
 
       .front img {
-        height: 135px;
+        height: 140px;
+      }
+
+      .caption {
+        font-size: 0.84rem;
+      }
+
+      .back {
+        padding: 16px;
       }
 
       .back p {
-        font-size: 0.95rem;
-      }
-
-      .admin-panel {
-        padding: 16px;
+        font-size: 0.92rem;
       }
     }
   </style>
@@ -378,110 +303,73 @@
 
   <header>
     <h1>For My Sunshine ☀️</h1>
-    <p>Tap a memory to find a little love note.</p>
+    <p>Tap a memory to reveal a little love note.</p>
   </header>
 
-  <section class="admin-panel" id="admin-panel">
-    <h2>Add a Memory 💗</h2>
-
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="photo-input">Upload photo</label>
-        <input id="photo-input" type="file" accept="image/*" />
-      </div>
-
-      <div class="form-group">
-        <label for="title-input">Photo title</label>
-        <input id="title-input" type="text" placeholder="My favorite smile" />
-      </div>
-
-      <div class="form-group full">
-        <label for="text-input">Hidden cute text</label>
-        <textarea id="text-input" placeholder="Every time you smile, my world gets softer."></textarea>
-      </div>
-    </div>
-
-    <div class="button-row">
-      <button onclick="addMemory()">Add Polaroid</button>
-      <button class="secondary" onclick="exportMemories()">Export Memories</button>
-      <button class="danger" onclick="clearAllMemories()">Clear All</button>
-    </div>
-
-    <p class="hint">
-      For GitHub Pages: add your memories, click Export Memories, then paste the exported data into the
-      <strong>defaultMemories</strong> array in this HTML before publishing.
-    </p>
+  <section class="board-wrapper">
+    <main class="board" id="board"></main>
   </section>
-
-  <main class="board" id="board"></main>
 
   <script>
     /*
       Change this password before publishing.
-      Note: This is a simple front-end password, not strong security.
+      This is a simple front-end password gate.
+      It is cute for privacy, but not strong security.
     */
     const SECRET_PASSWORD = "sunshine";
 
     /*
-      For GitHub Pages sharing:
-      After you add cards and click "Export Memories", paste the exported array below.
+      Add your photos inside the /photos folder in GitHub.
 
-      Example:
-      const defaultMemories = [
-        {
-          image: "data:image/jpeg;base64,...",
-          caption: "My favorite smile",
-          text: "Every time you smile, my world gets softer."
-        }
-      ];
+      Example repository:
+      for-my-sunshine/
+        index.html
+        photos/
+          photo1.jpg
+          photo2.jpg
+          photo3.jpg
+
+      Then add each photo here.
     */
-    const defaultMemories = [
+    const memories = [
       {
-        image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80",
-        caption: "Our little beginning",
-        text: "You make ordinary days feel like magic."
+        image: "photos/photo1.jpg",
+        caption: "My favorite smile",
+        text: "Every time you smile, my world gets softer."
       },
       {
-        image: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=800&q=80",
+        image: "photos/photo2.jpg",
+        caption: "Our little moment",
+        text: "You make even ordinary days feel like magic."
+      },
+      {
+        image: "photos/photo3.jpg",
         caption: "My sunshine",
         text: "You are my favorite person, my peace, and my happy place."
+      },
+      {
+        image: "photos/photo4.jpg",
+        caption: "Us",
+        text: "With you, even silence feels like home."
       }
+
+      /*
+        To add more photos, copy this block:
+
+      ,
+      {
+        image: "photos/photo5.jpg",
+        caption: "A title here",
+        text: "Your cute hidden message here."
+      }
+
+      */
     ];
 
-    const STORAGE_KEY = "sunshineMemories";
     const board = document.getElementById("board");
-
-    let memories = loadMemories();
-
-    function loadMemories() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-
-      if (saved) {
-        try {
-          return JSON.parse(saved);
-        } catch {
-          return defaultMemories;
-        }
-      }
-
-      return defaultMemories;
-    }
-
-    function saveMemories() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(memories));
-    }
 
     function renderBoard() {
       board.innerHTML = "";
-
-      if (!memories.length) {
-        board.innerHTML = `
-          <div class="empty-state">
-            No memories yet. Add your first Polaroid above 💗
-          </div>
-        `;
-        return;
-      }
 
       memories.forEach((memory, index) => {
         const card = document.createElement("div");
@@ -492,8 +380,6 @@
         card.style.transform = `rotate(${rotations[index % rotations.length]}deg)`;
 
         card.innerHTML = `
-          <button class="delete-card" title="Delete this memory">×</button>
-
           <div class="polaroid-inner">
             <div class="front">
               <img src="${escapeAttribute(memory.image)}" alt="${escapeAttribute(memory.caption)}">
@@ -508,98 +394,16 @@
 
         card.addEventListener("click", () => {
           document.querySelectorAll(".polaroid").forEach(item => {
-            if (item !== card) item.classList.remove("selected");
+            if (item !== card) {
+              item.classList.remove("selected");
+            }
           });
 
           card.classList.toggle("selected");
         });
 
-        const deleteButton = card.querySelector(".delete-card");
-
-        deleteButton.addEventListener("click", event => {
-          event.stopPropagation();
-          deleteMemory(index);
-        });
-
         board.appendChild(card);
       });
-    }
-
-    function addMemory() {
-      const photoInput = document.getElementById("photo-input");
-      const titleInput = document.getElementById("title-input");
-      const textInput = document.getElementById("text-input");
-
-      const file = photoInput.files[0];
-      const caption = titleInput.value.trim();
-      const text = textInput.value.trim();
-
-      if (!file) {
-        alert("Please upload a photo first.");
-        return;
-      }
-
-      if (!caption) {
-        alert("Please add a title for the photo.");
-        return;
-      }
-
-      if (!text) {
-        alert("Please add the hidden cute text.");
-        return;
-      }
-
-      const reader = new FileReader();
-
-      reader.onload = function(event) {
-        memories.push({
-          image: event.target.result,
-          caption,
-          text
-        });
-
-        saveMemories();
-        renderBoard();
-
-        photoInput.value = "";
-        titleInput.value = "";
-        textInput.value = "";
-      };
-
-      reader.readAsDataURL(file);
-    }
-
-    function deleteMemory(index) {
-      const confirmed = confirm("Delete this memory?");
-
-      if (!confirmed) return;
-
-      memories.splice(index, 1);
-      saveMemories();
-      renderBoard();
-    }
-
-    function clearAllMemories() {
-      const confirmed = confirm("This will remove all memories saved in this browser. Continue?");
-
-      if (!confirmed) return;
-
-      memories = [];
-      saveMemories();
-      renderBoard();
-    }
-
-    function exportMemories() {
-      const exportText = JSON.stringify(memories, null, 2);
-
-      navigator.clipboard.writeText(exportText)
-        .then(() => {
-          alert("Memories copied! Paste them into the defaultMemories array before publishing.");
-        })
-        .catch(() => {
-          const newWindow = window.open("", "_blank");
-          newWindow.document.write("<pre>" + escapeHTML(exportText) + "</pre>");
-        });
     }
 
     function unlockPage() {
